@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Nexus 🤖 - Home</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 0 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+            margin: 20px;
+            margin: auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 15px auto;
+            width: 100%;
+        }
+
+        .input-group input[type="text"] {
+            padding: 15px;
+            width: 100%;
+            border: 2px solid #ced4da;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input[type="text"]:focus {
+            border-color: #c82333;
+            outline: none;
+        }
+
+        .dropzone {
+            border: 2px dashed #ced4da;
+            border-radius: 8px;
+            padding: 20px;
+            width: calc(100% - 45px);
+            text-align: center;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .dropzone:hover {
+            background-color: #e2e6ea;
+            border-color: #c82333;
+        }
+
+        .dropzone input[type="file"] {
+            display: none;
+        }
+
+        .dropzone p {
+            margin: 0;
+            color: #6c757d;
+        }
+
+        button {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 1.1rem;
+            color: #444;
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+
+        #result::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        #result::-webkit-scrollbar-track {
+            background: black;
+            border-radius: 10px;
+        }
+
+        #result::-webkit-scrollbar-thumb {
+            background-color: #c82333;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .loader {
+            display: none;
+            margin: 20px 0;
+        }
+
+        .loader span {
+            width: 12px;
+            height: 12px;
+            margin: 0 6px;
+            background-color: #c82333;
+            border-radius: 50%;
+            display: inline-block;
+            animation: wave 1.5s infinite;
+        }
+
+        .loader span:nth-child(2) {
+            animation-delay: -0.3s;
+        }
+
+        .loader span:nth-child(3) {
+            animation-delay: -0.6s;
+        }
+
+        @keyframes wave {
+
+            0%,
+            100% {
+                transform: scaleY(0.5);
+            }
+
+            50% {
+                transform: scaleY(1.5);
+            }
+        }
+
+        .audio-controls,
+        .copy-controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .copy-controls {
+            margin: 20px 0 0 9px;
+        }
+
+        .audio-controls button,
+        .copy-controls button {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .audio-controls button:hover,
+        .copy-controls button:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+        .copy-controls button {
+            background-color: #dc3545;
+            color: #000;
+        }
+
+        .copy-controls button:hover {
+            background-color: #c82333;
+        }
+
+        .description {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        .sidebar {
+            width: 400px;
+            background: #f1f1f1;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            color: black;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            border-bottom: 1px solid #dc3545;
+            padding: 0 0 10px 0;
+        }
+
+        .history-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .history-item:hover {
+            background-color: #e9ecef;
+            border: 1px solid #dc3545;
+        }
+
+        .sidebar button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar button:hover {
+            background-color: #c82333;
+        }
+
+        #history {
+            flex: 1;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 0 10px 0 0;
+            margin: 0 0 10px 0;
+        }
+
+        #history::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        #history::-webkit-scrollbar-track {
+            background: black;
+            border-radius: 10px;
+        }
+
+        #history::-webkit-scrollbar-thumb {
+            background-color: #c82333;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .history-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .history-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .history-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .history-buttons {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .user-name {
+            margin-top: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            text-align: center;
+            text-transform: capitalize;
+            display: block;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .user-name:hover {
+            background-color: #c82333;
+        }
+
+        @media (max-width: 600px) {
+
+            .toggle-button {
+                width: 30px;
+                height: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                cursor: pointer;
+                z-index: 1;
+                position: absolute;
+                top: 28px;
+                right: 20px;
+            }
+
+            .bar {
+                width: 100%;
+                height: 3px;
+                background-color: black;
+                transition: transform 0.4s, opacity 0.4s;
+            }
+
+            .change .bar:nth-child(1) {
+                transform: translateY(9px) rotate(-45deg);
+            }
+
+            .change .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .change .bar:nth-child(3) {
+                transform: translateY(-9px) rotate(45deg);
+            }
+
+            .sidebar {
+                display: none;
+                width: 100%;
+            }
+
+        }
+
+        .action {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <h2>PDF Nexus 🤖</h2>
+        <div id="history"></div>
+        <button class="about" id="about" onclick="openAboutPage()">About 💡</button>
+        <button class="login-button" id="login-button">Login 🔐</button>
+        <div class="user-name" style="display: none;"></div>
+        <button id="deleteAll">Delete All 🗑️</button>
+        <button id="startNew">Start New 🆕</button>
+    </div>
+    <div class="container" id="container">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="input-group">
+                <input type="text" name="prompt" placeholder="Enter your prompt" required>
+            </div>
+            <div class="input-group">
+                <label for="pdfFile" class="dropzone">
+                    <span id="fileName">Drag & Drop PDF Here or Click to Select 📂📥</span>
+                    <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" required>
+                </label>
+            </div>
+            <button type="submit">✅</button>
+        </form>
+        <div id="result"></div>
+        <div class="action">
+            <div class="audio-controls">
+                <button id="playAudio" style="display: none;">▶️</button>
+                <button id="stopAudio" style="display: none;">⏹️</button>
+            </div>
+            <div class="copy-controls">
+                <button id="copyText" style="display: none;">📋</button>
+            </div>
+        </div>
+        <div class="loader" id="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="toggle-button" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    <script>
+        function toggleMenu() {
+            var menuButton = document.querySelector('.toggle-button');
+            menuButton.classList.toggle('change');
+
+            var menuItems = document.getElementById('sidebar');
+            var container = document.getElementById('container');
+
+            if (menuItems.style.display === 'flex') {
+                menuItems.style.display = 'none';
+                container.style.display = 'flex';
+            } else {
+                menuItems.style.display = 'flex';
+                container.style.display = 'none';
+            }
+        }
+
+        function hideSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var container = document.getElementById('container');
+            var menuButton = document.querySelector('.toggle-button');
+
+            sidebar.style.display = 'none';
+            container.style.display = 'flex';
+            menuButton.classList.remove('change');
+        }
+
+        function addSidebarClickListeners() {
+            var sidebarItems = document.querySelectorAll('#sidebar, #sidebar *');
+            sidebarItems.forEach(function (item) {
+                item.addEventListener('click', function () {
+                    hideSidebar();
+                });
+            });
+        }
+
+        function handleResize() {
+            if (window.innerWidth <= 600) {
+                addSidebarClickListeners();
+            } else {
+                var sidebarItems = document.querySelectorAll('#sidebar, #sidebar *');
+                sidebarItems.forEach(function (item) {
+                    item.removeEventListener('click', hideSidebar);
+                });
+            }
+        }
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+        const historyContainer = document.getElementById('history');
+        const sidebar = document.getElementById('sidebar');
+        const resultContainer = document.getElementById('result');
+        const loader = document.getElementById('loader');
+        const playAudioButton = document.getElementById('playAudio');
+        const stopAudioButton = document.getElementById('stopAudio');
+        const copyTextButton = document.getElementById('copyText');
+        const fileInput = document.getElementById('pdfFile');
+        const fileNameDisplay = document.getElementById('fileName');
+        const startNewButton = document.getElementById('startNew');
+        const deleteAllButton = document.getElementById('deleteAll');
+
+        function updateHistory() {
+            const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+            historyContainer.innerHTML = '';
+
+            history.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `
+                <div class="history-content">
+                    <strong>${item.name || 'Response ' + (index + 1)}</strong>
+                    <div class="history-buttons">
+                        <button onclick="editName(${index})">✎</button>
+                        <button onclick="deleteHistory(${index})">🗑️</button>
+                        <button onclick="openHistory(${index})">Open</button>
+                    </div>
+                </div>
+            `;
+                historyContainer.appendChild(div);
+            });
+        }
+
+        function saveToHistory(name, response) {
+            const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+            history.push({ name, response });
+            localStorage.setItem('pdfResponses', JSON.stringify(history));
+            updateHistory();
+        }
+
+        function deleteHistory(index) {
+            const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+            history.splice(index, 1);
+            localStorage.setItem('pdfResponses', JSON.stringify(history));
+            updateHistory();
+        }
+
+        function editName(index) {
+            const newName = prompt('Enter new name:', 'Response ' + (index + 1));
+            if (newName) {
+                const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+                history[index].name = newName;
+                localStorage.setItem('pdfResponses', JSON.stringify(history));
+                updateHistory();
+            }
+        }
+
+        function openHistory(index) {
+            const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+            const item = history[index];
+            if (item) {
+                resultContainer.innerHTML = item.response;
+                fileNameDisplay.textContent = 'Opened: ' + (item.name || 'Response ' + (index + 1));
+
+                playAudioButton.style.display = 'inline-block';
+                stopAudioButton.style.display = 'inline-block';
+                copyTextButton.style.display = 'inline-block';
+
+                let synth = window.speechSynthesis;
+                let currentUtterance = new SpeechSynthesisUtterance(item.response);
+
+                playAudioButton.onclick = () => {
+                    if (synth.speaking && currentUtterance) {
+                        synth.resume();
+                    } else {
+                        synth.speak(currentUtterance);
+                    }
+                };
+
+                stopAudioButton.onclick = () => {
+                    if (synth.speaking) {
+                        synth.pause();
+                        synth.cancel();
+                    }
+                };
+
+                copyTextButton.onclick = () => {
+                    navigator.clipboard.writeText(item.response).then(() => {
+                        alert('Text copied to clipboard!');
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
+                };
+            }
+        }
+
+        function clearAllHistory() {
+            localStorage.removeItem('pdfResponses');
+            updateHistory();
+        }
+
+        document.getElementById('uploadForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            loader.style.display = 'block';
+            resultContainer.innerHTML = '';
+
+            const formData = new FormData(this);
+            const pdfFile = document.getElementById('pdfFile').files[0];
+
+            if (!pdfFile) {
+                alert('Please select a PDF file.');
+                loader.style.display = 'none';
+                return;
+            }
+
+            const url = URL.createObjectURL(pdfFile);
+            const pdf = await pdfjsLib.getDocument(url).promise;
+            const numPages = pdf.numPages;
+            const images = [];
+
+            for (let i = 1; i <= numPages; i++) {
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({ scale: 1.5 });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                await page.render(renderContext).promise;
+
+                const imgData = canvas.toDataURL();
+                images.push(imgData);
+            }
+
+            URL.revokeObjectURL(url);
+
+            const imageBlobPromises = images.map(dataURL => fetch(dataURL).then(res => res.blob()));
+            const imageBlobs = await Promise.all(imageBlobPromises);
+
+            imageBlobs.forEach((blob, index) => {
+                formData.append(`images`, blob, `page_${index + 1}.png`);
+            });
+
+            try {
+                const response = await fetch('/process', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                const responseText = data.html || data.error;
+                resultContainer.innerHTML = responseText;
+
+                if (responseText) {
+                    playAudioButton.style.display = 'inline-block';
+                    stopAudioButton.style.display = 'inline-block';
+
+                    let synth = window.speechSynthesis;
+                    let currentUtterance = null;
+
+                    playAudioButton.addEventListener('click', () => {
+                        if (currentUtterance) {
+                            synth.resume();
+                        } else {
+                            currentUtterance = new SpeechSynthesisUtterance(responseText);
+                            synth.speak(currentUtterance);
+                        }
+                    });
+
+                    stopAudioButton.addEventListener('click', () => {
+                        if (currentUtterance) {
+                            synth.pause();
+                            synth.cancel();
+                            currentUtterance = null;
+                        }
+                    });
+
+                    copyTextButton.style.display = 'inline-block';
+                    copyTextButton.addEventListener('click', () => {
+                        navigator.clipboard.writeText(responseText).then(() => {
+                            alert('Text copied to clipboard!');
+                        }).catch(err => {
+                            console.error('Failed to copy text: ', err);
+                        });
+                    });
+
+                    saveToHistory(`Response ${Date.now()}`, responseText);
+                }
+            } catch (error) {
+                resultContainer.innerHTML = 'An error occurred: ' + error.message;
+            } finally {
+                loader.style.display = 'none';
+            }
+        });
+
+        fileInput.addEventListener('change', function () {
+            const file = fileInput.files[0];
+            if (file) {
+                fileNameDisplay.textContent = `Selected File: ${file.name}`;
+            } else {
+                fileNameDisplay.textContent = 'Drag & Drop PDF Here or Click to Select 📂📥';
+            }
+        });
+
+        startNewButton.addEventListener('click', () => {
+            fileInput.value = '';
+            fileNameDisplay.textContent = 'Drag & Drop PDF Here or Click to Select 📂📥';
+            resultContainer.innerHTML = '';
+        });
+
+        deleteAllButton.addEventListener('click', clearAllHistory);
+
+        updateHistory();
+
+        function handleLogin() {
+            window.location.href = '/login';
+        }
+
+        const loginButton = document.getElementById('login-button');
+        loginButton.addEventListener('click', handleLogin);
+
+        window.onload = function () {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            const loginButton = document.getElementById('login-button');
+            const deleteAllChatsButton = document.getElementById('delete-all-chats');
+
+            if (!loggedInUser) {
+                loginButton.style.display = 'block';
+            } else {
+                loginButton.style.display = 'none';
+
+                const userName = JSON.parse(loggedInUser).username;
+                let userNameDisplay = document.querySelector('.user-name');
+
+                if (!userNameDisplay) {
+                    userNameDisplay = document.createElement('div');
+                    userNameDisplay.classList.add('user-name');
+                    userNameDisplay.textContent = `${userName} 👤`;
+                    userNameDisplay.style.display = 'block';
+                    deleteAllChatsButton.parentNode.insertBefore(userNameDisplay, deleteAllChatsButton);
+                } else {
+                    userNameDisplay.textContent = `${userName} 👤`;
+                    userNameDisplay.style.display = 'block';
+                }
+
+                userNameDisplay.addEventListener('click', () => {
+                    window.location.href = `/user-details`;
+                });
+            }
+        };
+
+        function openAboutPage() {
+            window.location.href = '/about';
+        }
+
+    </script>
+</body>
+
+</html>
