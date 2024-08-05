@@ -111,6 +111,7 @@
             border: 1px solid white;
             border-radius: 8px;
             background-color: #f8f9fa;
+            display: block;
         }
 
         #result::-webkit-scrollbar {
@@ -219,9 +220,13 @@
             color: white;
             display: flex;
             flex-direction: column;
-            padding: 20px;
+            padding: 12px 20px 20px 20px;
             color: black;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #sidebar.show {
+            width: 100%;
         }
 
         .sidebar h2 {
@@ -269,6 +274,7 @@
             overflow-y: auto;
             padding: 0 10px 0 0;
             margin: 0 0 10px 0;
+            display: block;
         }
 
         #history::-webkit-scrollbar {
@@ -341,7 +347,93 @@
             background-color: #c82333;
         }
 
+        .action {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .container button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .container button:hover {
+            background-color: #c82333;
+        }
+
+        #toggleButton {
+            position: fixed;
+            right: 20px;
+            width: 100%;
+            max-width: 50px;
+            text-align: center;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 20px;
+            padding: 5px;
+            top: 5px;
+        }
+
+        #toggleButton:hover {
+            background-color: #c82333;
+        }
+
+        #backToHomeButton {
+            display: block;
+            width: 90%;
+            margin: 10px auto;
+            padding: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        #backToHomeButton:hover {
+            background-color: #c82333;
+        }
+
         @media (max-width: 600px) {
+
+            #toggleButton {
+                left: 20px;
+                font-size: 20px;
+                padding: 5px;
+                top: 5px;
+            }
 
             .toggle-button {
                 width: 30px;
@@ -352,7 +444,7 @@
                 cursor: pointer;
                 z-index: 1;
                 position: absolute;
-                top: 28px;
+                top: 20px;
                 right: 20px;
             }
 
@@ -381,13 +473,6 @@
             }
 
         }
-
-        .action {
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
@@ -396,13 +481,17 @@
     <div class="sidebar" id="sidebar">
         <h2>PDF Nexus 🤖</h2>
         <div id="history"></div>
-        <button class="about" id="about" onclick="openAboutPage()">About 💡</button>
-        <button class="login-button" id="login-button">Login 🔐</button>
-        <div class="user-name" style="display: none;"></div>
-        <button id="deleteAll">Delete All 🗑️</button>
-        <button id="startNew">Start New 🆕</button>
     </div>
     <div class="container" id="container">
+        <button id="toggleButton">👤</button>
+        <div id="content" class="hidden">
+            <button class="about" id="about" onclick="openAboutPage()">About 💡</button>
+            <button class="login-button" id="login-button">Login 🔐</button>
+            <div class="user-name" style="display: none;"></div>
+            <button id="historyButton">History 🕒</button>
+            <button id="deleteAll">Delete All 🗑️</button>
+            <button id="startNew">Start New 🆕</button>
+        </div>
         <form id="uploadForm" enctype="multipart/form-data">
             <div class="input-group">
                 <input type="text" name="prompt" placeholder="Enter your prompt" required>
@@ -440,6 +529,49 @@
         <div class="bar"></div>
     </div>
     <script>
+        function showHistory() {
+            const sidebar = document.getElementById('sidebar');
+            const container = document.getElementById('container');
+
+            sidebar.style.display = 'flex';
+            sidebar.classList.add('show');
+            container.style.display = 'none';
+
+            if (!document.getElementById('backToHomeButton')) {
+                const backToHomeButton = document.createElement('button');
+                backToHomeButton.id = 'backToHomeButton';
+                backToHomeButton.textContent = 'Back to Home';
+                backToHomeButton.addEventListener('click', () => {
+                    window.location.reload();
+                });
+
+                sidebar.appendChild(backToHomeButton);
+            }
+        }
+
+        const historyButton = document.getElementById('historyButton');
+        historyButton.addEventListener('click', showHistory);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('toggleButton');
+            const content = document.getElementById('content');
+
+            toggleButton.addEventListener('click', () => {
+                content.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!content.contains(event.target) && event.target !== toggleButton) {
+                    content.classList.add('hidden');
+                }
+            });
+
+            content.addEventListener('click', (event) => {
+                event.stopPropagation();
+                content.classList.add('hidden');
+            });
+        });
+
         function toggleMenu() {
             var menuButton = document.querySelector('.toggle-button');
             menuButton.classList.toggle('change');
