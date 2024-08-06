@@ -436,14 +436,13 @@
             }
 
             .toggle-button {
+                position: fixed;
                 width: 30px;
                 height: 20px;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 cursor: pointer;
-                z-index: 1;
-                position: absolute;
                 top: 20px;
                 right: 20px;
             }
@@ -473,6 +472,24 @@
             }
 
         }
+
+        #searchHistory {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        #searchHistory:focus {
+            border-color: #dc3545;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
@@ -480,6 +497,7 @@
 <body>
     <div class="sidebar" id="sidebar">
         <h2>PDF Nexus 🤖</h2>
+        <input type="text" id="searchHistory" placeholder="Search history..." />
         <div id="history"></div>
     </div>
     <div class="container" id="container">
@@ -529,6 +547,28 @@
         <div class="bar"></div>
     </div>
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchHistoryInput = document.getElementById('searchHistory');
+
+            searchHistoryInput.addEventListener('input', function () {
+                const searchQuery = searchHistoryInput.value.toLowerCase();
+                filterHistory(searchQuery);
+            });
+        });
+
+        function filterHistory(query) {
+            const historyItems = document.querySelectorAll('#history .history-item');
+
+            historyItems.forEach(item => {
+                const itemName = item.querySelector('.history-content strong').textContent.toLowerCase();
+                if (itemName.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
         function showHistory() {
             const sidebar = document.getElementById('sidebar');
             const container = document.getElementById('container');
@@ -599,7 +639,7 @@
         }
 
         function addSidebarClickListeners() {
-            var sidebarItems = document.querySelectorAll('#sidebar, #sidebar *');
+            var sidebarItems = document.querySelectorAll('#sidebar *:not(#searchHistory)');
             sidebarItems.forEach(function (item) {
                 item.addEventListener('click', function () {
                     hideSidebar();
@@ -611,7 +651,7 @@
             if (window.innerWidth <= 600) {
                 addSidebarClickListeners();
             } else {
-                var sidebarItems = document.querySelectorAll('#sidebar, #sidebar *');
+                var sidebarItems = document.querySelectorAll('#sidebar *:not(#searchHistory)');
                 sidebarItems.forEach(function (item) {
                     item.removeEventListener('click', hideSidebar);
                 });
