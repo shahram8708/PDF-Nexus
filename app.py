@@ -1,7 +1,8 @@
 import os
 import markdown
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, redirect, url_for
 import google.generativeai as genai
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
@@ -22,6 +23,74 @@ def user_details():
 @app.route('/about', methods=['GET'])
 def about():
     return render_template('about.html')
+
+@app.route('/privacy', methods=['GET', 'POST'])
+def privacy():
+    return render_template('privacy.html')
+
+@app.route('/terms', methods=['GET'])
+def terms():
+    return render_template('terms.html')
+
+@app.route('/support', methods=['GET'])
+def support():
+    return render_template('support.html')
+
+@app.route('/explore', methods=['GET'])
+def explore():
+    return render_template('explore.html')
+
+@app.route('/pdf', methods=['GET'])
+def pdf():
+    return render_template('pdf.html')
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'ram.coding8@gmail.com'  
+app.config['MAIL_PASSWORD'] = 'lkbf nrwm pmno xqdh'  
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_DEFAULT_SENDER'] = 'ram.coding8@gmail.com'  
+
+mail = Mail(app)
+
+@app.route('/query', methods=['GET', 'POST'])
+def query():
+    if request.method == 'POST':
+        email = request.form['email']
+        message = request.form['message']
+        
+        msg = Message('New Query', recipients=[email])
+        msg.body = message
+        try:
+            mail.send(msg)
+            return redirect(url_for('success'))
+        except Exception as e:
+            return f"Error: {str(e)}"
+    return render_template('query.html')
+
+@app.route('/success')
+def success():
+    return 'Query sent successfully!'
+
+@app.route('/feedback', methods=['GET', 'POST'])
+def feedback():
+    if request.method == 'POST':
+        email = request.form['email']
+        message = request.form['message']
+        
+        msg = Message('New Feedback', recipients=[email])
+        msg.body = message
+        try:
+            mail.send(msg)
+            return redirect(url_for('feedback_success'))
+        except Exception as e:
+            return f"Error: {str(e)}"
+    return render_template('feedback.html')
+
+@app.route('/feedback_success')
+def feedback_success():
+    return 'Feedback sent successfully!'
 
 @app.route('/process', methods=['POST'])
 def process():
