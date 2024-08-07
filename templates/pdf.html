@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Nexus 🤖 - File Converter to PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.6.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e0f7fa, #b9fbc0);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            font-size: 1.5rem;
+        }
+
+        input[type="file"] {
+            margin: 15px 0;
+            width: calc(100% - 24px);
+            border: 2px solid #ced4da;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="file"]:focus {
+            border-color: #c82333;
+            outline: none;
+        }
+
+        select {
+            margin: 15px 0;
+            width: calc(100% - 24px);
+            border: 2px solid #ced4da;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus {
+            border-color: #c82333;
+            outline: none;
+        }
+
+        button {
+            background-color: #dc3545;
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            width: calc(100% - 24px);
+            margin: 20px 0;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            background-color: #004080;
+            transform: translateY(1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        a {
+            display: block;
+            margin: 20px 0;
+            color: #007bff;
+            font-size: 18px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            input[type="file"],
+            select,
+            button {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>PDF Nexus 🤖 - Convert Files to PDF</h1>
+        <input type="file" id="fileInput" />
+        <select id="fileType">
+            <option value="excel">Excel</option>
+            <option value="word">Word</option>
+            <option value="ppt">PowerPoint (Not implemented)</option>
+        </select>
+        <button id="convertBtn">Convert to PDF</button>
+        <a id="downloadLink" style="display: none;">Download PDF</a>
+    </div>
+
+    <script>
+        document.getElementById('convertBtn').addEventListener('click', async () => {
+            const fileInput = document.getElementById('fileInput');
+            const fileType = document.getElementById('fileType').value;
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert("Please select a file.");
+                return;
+            }
+
+            let pdfBytes;
+
+            if (fileType === 'excel') {
+                const reader = new FileReader();
+                reader.onload = async function (e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const htmlString = XLSX.utils.sheet_to_html(worksheet);
+
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF();
+                    pdf.html(htmlString, {
+                        callback: function (pdf) {
+                            pdfBytes = pdf.output('arraybuffer');
+                            downloadPDF(pdfBytes);
+                        },
+                        x: 10,
+                        y: 10
+                    });
+                };
+                reader.readAsArrayBuffer(file);
+            } else if (fileType === 'word') {
+                const reader = new FileReader();
+                reader.onload = async function (e) {
+                    const arrayBuffer = e.target.result;
+                    const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
+                    const htmlString = result.value;
+
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF();
+                    pdf.html(htmlString, {
+                        callback: function (pdf) {
+                            pdfBytes = pdf.output('arraybuffer');
+                            downloadPDF(pdfBytes);
+                        },
+                        x: 10,
+                        y: 10
+                    });
+                };
+                reader.readAsArrayBuffer(file);
+            } else {
+                alert("PowerPoint conversion is not implemented.");
+            }
+        });
+
+        function downloadPDF(pdfBytes) {
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = url;
+            downloadLink.download = 'converted.pdf';
+            downloadLink.textContent = 'Download PDF';
+            downloadLink.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>
