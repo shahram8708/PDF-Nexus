@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
+            background: linear-gradient(to right, #e0f7fa, #b9fbc0);
             margin: 0;
             display: flex;
             height: 100vh;
@@ -363,7 +363,7 @@
             background-color: white;
             border: 1px solid #ccc;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 50%;
+            width: 70%;
             box-sizing: border-box;
         }
 
@@ -504,6 +504,12 @@
         <button id="toggleButton">👤</button>
         <div id="content" class="hidden">
             <button class="about" id="about" onclick="openAboutPage()">About 💡</button>
+            <button class="about" id="feedback" onclick="openFeedbackPage()">Feedback 🗣️</button>
+            <button class="about" id="query" onclick="openQueryPage()">Query ❓</button>
+            <button class="about" id="privacy" onclick="openPrivacyPolicyPage()">Privacy Policy 🔒</button>
+            <button class="about" id="terms" onclick="openTermsPage()">Terms & Conditions 📜</button>
+            <button class="about" id="support" onclick="openSupportPage()">Help & Support 💬</button>
+            <button class="explore-ai" id="exploreAI" onclick="openExploreAIPage()">Explore AI 🌟</button>
             <button class="login-button" id="login-button">Login 🔐</button>
             <div class="user-name" style="display: none;"></div>
             <button id="historyButton">History 🕒</button>
@@ -921,6 +927,30 @@
 
         function openAboutPage() {
             window.location.href = '/about';
+        }
+
+        function openFeedbackPage() {
+            window.location.href = '/feedback';
+        }
+
+        function openQueryPage() {
+            window.location.href = '/query';
+        }
+
+        function openPrivacyPolicyPage() {
+            window.location.href = '/privacy';
+        }
+
+        function openTermsPage() {
+            window.location.href = '/terms';
+        }
+
+        function openSupportPage() {
+            window.location.href = '/support';
+        }
+
+        function openExploreAIPage() {
+            window.location.href = '/explore';
         }
 
     </script>
