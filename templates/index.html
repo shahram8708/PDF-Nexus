@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='artificial-intelligence.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='artificial-intelligence.png') }}"
+        type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="PDF Nexus 🤖 - Convert and analyze PDF content effortlessly. Upload your PDF, get instant responses, and manage your history with ease.">
@@ -504,6 +504,7 @@
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
@@ -565,6 +566,51 @@
         <div class="bar"></div>
     </div>
     <script>
+        async function shareResponse(index) {
+            const { jsPDF } = window.jspdf;
+            const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
+            const item = history[index];
+
+            if (item) {
+                const plainText = extractPlainText(item.response);
+                const pdfDoc = new jsPDF();
+
+                const pageWidth = pdfDoc.internal.pageSize.width;
+                const pageHeight = pdfDoc.internal.pageSize.height;
+                const margin = 10;
+                const lineHeight = 10;
+                const maxWidth = pageWidth - 2 * margin;
+                const textLines = pdfDoc.splitTextToSize(plainText, maxWidth);
+
+                let yOffset = margin;
+                textLines.forEach((line, index) => {
+                    if (yOffset + lineHeight > pageHeight - margin) {
+                        pdfDoc.addPage();
+                        yOffset = margin;
+                    }
+                    pdfDoc.text(line, margin, yOffset);
+                    yOffset += lineHeight;
+                });
+
+                pdfDoc.save('response.pdf');
+            }
+        }
+
+        function extractPlainText(htmlString) {
+            const div = document.createElement('div');
+            div.innerHTML = htmlString;
+            return div.textContent || div.innerText || '';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const shareButtons = document.querySelectorAll('.share-button');
+            shareButtons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    shareResponse(index);
+                });
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             const searchHistoryInput = document.getElementById('searchHistory');
 
@@ -708,6 +754,7 @@
                         <button onclick="editName(${index})">✎</button>
                         <button onclick="deleteHistory(${index})">🗑️</button>
                         <button onclick="openHistory(${index})">Open</button>
+                        <button onclick="shareResponse(${index})">🔗</button> 
                     </div>
                 </div>
             `;
