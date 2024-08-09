@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='artificial-intelligence.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='artificial-intelligence.png') }}"
+        type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="PDF Nexus 🤖 - Convert and analyze PDF content effortlessly. Upload your PDF, get instant responses, and manage your history with ease.">
@@ -115,6 +116,68 @@
                 padding: 15px;
             }
         }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-section,
+        .response-history,
+        .document-details,
+        .contact-feedback,
+        .navigation,
+        .explore-ai,
+        .login,
+        .additional-info {
+            margin-bottom: 20px;
+        }
+
+        .upload-btn,
+        .feedback-btn,
+        .query-btn,
+        .convert-btn,
+        .login-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            color: #fff;
+            background-color: #dc3545;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .upload-btn:hover,
+        .feedback-btn:hover,
+        .query-btn:hover,
+        .convert-btn:hover,
+        .login-btn:hover {
+            background-color: #c82333;
+        }
+
+        .response-history ul,
+        .navigation ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .response-history li,
+        .navigation a {
+            margin: 5px 0;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .navigation a:hover {
+            text-decoration: underline;
+        }
     </style>
     <script>
         function goBack() {
@@ -132,17 +195,79 @@
     </header>
     <main>
         <section>
-            <h2>Getting Started</h2>
-            <p>Learn how to use PDF Nexus effectively with our step-by-step guide.</p>
+            <div class="step">
+                <h2>Step 1: Accessing PDF Nexus</h2>
+                <p><strong>Purpose:</strong> Demonstrate how to access the PDF Nexus website.</p>
+                <p><strong>Website Address:</strong> <a href="/" target="_blank">PDF Nexus</a> 🌐</p>
+                <p><strong>Main Landing Page:</strong> You will be greeted with the main landing page showcasing various
+                    features.</p>
+            </div>
 
-            <h2>Frequently Asked Questions</h2>
-            <p>Find answers to common questions about our service.</p>
+            <div class="upload-section">
+                <h2>Step 2: Uploading a PDF</h2>
+                <p><strong>Purpose:</strong> Show how to upload a PDF document for processing.</p>
+                <p><strong>Key Action:</strong> Click on the <a href="/" class="upload-btn">"Drag & Drop PDF Here or
+                        Click to Select"</a> button to upload your PDF. 📥</p>
+            </div>
 
-            <h2>Contact Support</h2>
-            <p>If you need further assistance, you can contact our support team at support@pdfnexus.com.</p>
+            <div class="response-history">
+                <h2>Step 3: Viewing Responses</h2>
+                <p><strong>Purpose:</strong> Illustrate the response system for processing a PDF.</p>
+                <p><strong>Response History Area:</strong> Shows processed results with IDs such as:</p>
+                <ul>
+                    <li>Response ID: 1729182091453</li>
+                    <li>Response ID: 1729182091453</li>
+                    <li>Response ID: 1729182091453</li>
+                </ul>
+            </div>
 
-            <h2>Feedback</h2>
-            <p>We welcome your feedback to improve our service. Send your suggestions to feedback@pdfnexus.com.</p>
+            <div class="document-details">
+                <h2>Step 4: Understanding the Document</h2>
+                <p><strong>Purpose:</strong> Explain what the uploaded PDF represents.</p>
+                <p><strong>Document Example:</strong> The PDF is a "Syllabus for an Artificial Intelligence Course" at a
+                    university. 📘</p>
+                <p><strong>Key Phrase:</strong> “This document is a syllabus for an Artificial Intelligence course…”</p>
+            </div>
+
+            <div class="contact-feedback">
+                <h2>Step 5: Contact Details and Feedback</h2>
+                <p><strong>Purpose:</strong> Show how to access contact details and provide feedback.</p>
+                <p><strong>Contact Options:</strong></p>
+                <p>Email us at: <a href="mailto:support@pdfnexus.com">support@pdfnexus.com</a> 📧</p>
+                <p><a href="/feedback" class="feedback-btn">Feedback</a></p>
+                <p><a href="/query" class="query-btn">Query</a> ❓</p>
+            </div>
+
+            <div class="navigation">
+                <h2>Step 6: Additional Navigation</h2>
+                <p><strong>Purpose:</strong> Demonstrate other website features.</p>
+                <p><strong>Sections:</strong></p>
+                <ul>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/terms">Terms & Conditions</a></li>
+                    <li><a href="/explore">Explore AI</a> 🔍</li>
+                </ul>
+            </div>
+
+            <div class="explore-ai">
+                <h2>Step 7: The "Explore AI" Feature</h2>
+                <p><strong>Purpose:</strong> Introduce the "Explore AI" section with conversion capabilities.</p>
+                <p><strong>Conversion Options:</strong></p>
+                <p><a href="/explore" class="convert-btn">Convert to PDF</a></p>
+                <ul>
+                    <li>Image to PDF</li>
+                    <li>Excel to PDF</li>
+                    <li>Text to PDF</li>
+                    <li>Many More...</li>
+                </ul>
+            </div>
+
+            <div class="login">
+                <h2>Step 8: User Login</h2>
+                <p><strong>Purpose:</strong> Demonstrate how to log into a user account.</p>
+                <p><strong>Login Page:</strong> Includes fields for username, email, and password. 🔐</p>
+                <p><a href="/login" class="login-btn">Log in</a></p>
+            </div>
         </section>
     </main>
 </body>
