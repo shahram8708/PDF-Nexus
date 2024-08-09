@@ -502,9 +502,38 @@
             outline: none;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
         }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        #microphoneButton {
+            width: 40px;
+            height: 40px;
+            padding: 25px;
+            font-size: 20px;
+            border-radius: 4px;
+            background-color: #dc3545;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 55px auto 15px 10px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        #microphoneButton:hover {
+            background-color: #c82333;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
@@ -531,7 +560,9 @@
         </div>
         <form id="uploadForm" enctype="multipart/form-data">
             <div class="input-group">
-                <input type="text" name="prompt" placeholder="Enter your prompt" required>
+                <input type="text" id="promptInput" name="prompt" placeholder="Enter your prompt" required>
+                <button type="button" id="microphoneButton" aria-label="Speak"> <i
+                        class="fas fa-microphone"></i></button>
             </div>
             <div class="input-group">
                 <label for="pdfFile" class="dropzone">
@@ -566,6 +597,32 @@
         <div class="bar"></div>
     </div>
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const microphoneButton = document.getElementById('microphoneButton');
+            const promptInput = document.getElementById('promptInput');
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.continuous = false;
+
+            microphoneButton.addEventListener('click', () => {
+                recognition.start();
+            });
+
+            recognition.addEventListener('result', (event) => {
+                const transcript = event.results[0][0].transcript;
+                promptInput.value = transcript;
+            });
+
+            recognition.addEventListener('error', (event) => {
+                console.error('Speech recognition error', event.error);
+            });
+
+            recognition.addEventListener('end', () => {
+            });
+        });
+
         async function shareResponse(index) {
             const { jsPDF } = window.jspdf;
             const history = JSON.parse(localStorage.getItem('pdfResponses')) || [];
