@@ -265,15 +265,15 @@
 
         .sidebar button {
             display: block;
-            width: 100%;
-            margin-top: 10px;
+            width: 90%;
+            margin: 10px auto 0 auto;
             padding: 10px;
-            border: none;
-            border-radius: 8px;
             background-color: #dc3545;
             color: white;
+            border: none;
             cursor: pointer;
-            transition: background-color 0.3s;
+            text-align: center;
+            box-sizing: border-box;
         }
 
         .sidebar button:hover {
@@ -539,8 +539,10 @@
 <body>
     <div class="sidebar" id="sidebar">
         <h2>PDF Nexus 🤖</h2>
-        <input type="text" id="searchHistory" placeholder="Search history..." />
+        <input type="text" id="searchHistory" placeholder="🔍 Search history..." />
         <div id="history"></div>
+        <button id="deleteAll">Delete All 🗑️</button>
+        <button id="startNew">Start New 🆕</button>
     </div>
     <div class="container" id="container">
         <button id="toggleButton">👤</button>
@@ -555,12 +557,10 @@
             <button class="login-button" id="login-button">Login 🔐</button>
             <div class="user-name" style="display: none;"></div>
             <button id="historyButton">History 🕒</button>
-            <button id="deleteAll">Delete All 🗑️</button>
-            <button id="startNew">Start New 🆕</button>
         </div>
         <form id="uploadForm" enctype="multipart/form-data">
             <div class="input-group">
-                <input type="text" id="promptInput" name="prompt" placeholder="Enter your prompt" required>
+                <input type="text" id="promptInput" name="prompt" placeholder="➡️ Enter your prompt" required>
                 <button type="button" id="microphoneButton" aria-label="Speak"> <i
                         class="fas fa-microphone"></i></button>
             </div>
@@ -701,7 +701,7 @@
             if (!document.getElementById('backToHomeButton')) {
                 const backToHomeButton = document.createElement('button');
                 backToHomeButton.id = 'backToHomeButton';
-                backToHomeButton.textContent = 'Back to Home';
+                backToHomeButton.textContent = 'Back to Home 🔙';
                 backToHomeButton.addEventListener('click', () => {
                     window.location.reload();
                 });
@@ -799,7 +799,7 @@
             historyContainer.innerHTML = '';
 
             if (history.length === 0) {
-                historyContainer.innerHTML = '<p class="no-history-message">No history available</p>';
+                historyContainer.innerHTML = '<p class="no-history-message">❌ No history available</p>';
             } else {
                 history.forEach((item, index) => {
                     const div = document.createElement('div');
