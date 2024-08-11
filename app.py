@@ -14,6 +14,24 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        
+        user_msg = Message('Login Confirmation: Successful Login', recipients=[email])
+        user_msg.body = f"Dear {username},\n\nYou have successfully logged in to PDF Nexus 🤖.\n\nBest regards,\nPDF Nexus 🤖 Team"
+        
+        admin_msg = Message('User Login Notification', recipients=['ram.coding8@gmail.com'])
+        admin_msg.body = f"User {username} has logged in with the email address: {email}."
+        
+        try:
+            mail.send(user_msg)
+            mail.send(admin_msg)
+            return redirect(url_for('user_details'))
+        except Exception as e:
+            return f"Error: {str(e)}"
+    
     return render_template('login.html')
 
 @app.route('/user-details', methods=['GET'])
