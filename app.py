@@ -46,11 +46,11 @@ def pdf():
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = 'Email_ID'
-app.config['MAIL_PASSWORD'] = 'Password'
+app.config['MAIL_USERNAME'] = 'ram.coding8@gmail.com'
+app.config['MAIL_PASSWORD'] = 'lkbf nrwm pmno xqdh'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_DEFAULT_SENDER'] = 'Email_ID'
+app.config['MAIL_DEFAULT_SENDER'] = 'ram.coding8@gmail.com'
 
 mail = Mail(app)
 
@@ -63,7 +63,7 @@ def query():
         user_msg = Message('Confirmation: Your Query Received', recipients=[email])
         user_msg.body = f"Dear User,\n\nThank you for your query. We have received the following message from you:\n\n{message}\n\nBest regards,\nPDF Nexus 🤖 Team"
         
-        admin_msg = Message('New Query Received', recipients=['Email_ID'])
+        admin_msg = Message('New Query Received', recipients=['ram.coding8@gmail.com'])
         admin_msg.body = f"New query received:\n\nEmail: {email}\nMessage:\n{message}"
         
         try:
@@ -87,7 +87,7 @@ def feedback():
         user_msg = Message('Confirmation: Your Feedback Received', recipients=[email])
         user_msg.body = f"Dear User,\n\nThank you for your feedback. We have received the following message from you:\n\n{message}\n\nBest regards,\nPDF Nexus 🤖 Team"
         
-        admin_msg = Message('New Feedback Received', recipients=['Email_ID'])
+        admin_msg = Message('New Feedback Received', recipients=['ram.coding8@gmail.com'])
         admin_msg.body = f"New feedback received:\n\nEmail: {email}\nMessage:\n{message}"
         
         try:
