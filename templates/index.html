@@ -53,6 +53,7 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
+            margin-top: 15px;
         }
 
         .input-group input[type="text"] {
@@ -404,21 +405,17 @@
             position: fixed;
             right: 20px;
             width: 100%;
-            max-width: 50px;
-            text-align: center;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            font-size: 20px;
-            padding: 5px;
+            max-width: 60px;
             top: 5px;
-        }
-
-        #toggleButton:hover {
-            background-color: #c82333;
+            background: transparent;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         #backToHomeButton {
@@ -443,7 +440,6 @@
             #toggleButton {
                 left: 20px;
                 font-size: 20px;
-                padding: 5px;
                 top: 5px;
             }
 
@@ -530,6 +526,20 @@
         #microphoneButton:hover {
             background-color: #c82333;
         }
+
+        .profile-image-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .profile-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: url('https://img.icons8.com/ios/50/000000/user.png') center/cover no-repeat;
+            cursor: pointer;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -545,7 +555,8 @@
         <button id="startNew">Start New 🆕</button>
     </div>
     <div class="container" id="container">
-        <button id="toggleButton">👤</button>
+        <img id="toggleButton" class="profile-image" src="https://img.icons8.com/ios/50/000000/user.png"
+            alt="Profile Image">
         <div id="content" class="hidden">
             <button class="about" id="about" onclick="openAboutPage()">About 💡</button>
             <button class="about" id="feedback" onclick="openFeedbackPage()">Feedback 🗣️</button>
@@ -1038,6 +1049,11 @@
                 userNameDisplay.addEventListener('click', () => {
                     window.location.href = `/user-details`;
                 });
+            }
+
+            const toggleButton = localStorage.getItem('profileImage');
+            if (toggleButton) {
+                document.getElementById('toggleButton').src = toggleButton;
             }
         };
 
