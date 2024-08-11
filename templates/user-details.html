@@ -92,7 +92,7 @@
             const loggedInUser = localStorage.getItem('loggedInUser');
 
             if (!loggedInUser) {
-                window.location.href = 'index.html';
+                window.location.href = '/';
             } else {
                 const user = JSON.parse(loggedInUser);
                 document.getElementById('user-name').textContent = `Name: ${user.username}`;
