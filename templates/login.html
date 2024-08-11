@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='artificial-intelligence.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='artificial-intelligence.png') }}"
+        type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="PDF Nexus 🤖 - Convert and analyze PDF content effortlessly. Upload your PDF, get instant responses, and manage your history with ease.">
@@ -129,7 +130,7 @@
 
             localStorage.setItem('loggedInUser', JSON.stringify({ username, email, password }));
 
-            window.location.href = '/';
+            window.location.href = '/user-details';
         });
 
         document.getElementById('reset-button').addEventListener('click', function () {
