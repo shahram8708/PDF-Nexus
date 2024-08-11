@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='artificial-intelligence.png') }}" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='artificial-intelligence.png') }}"
+        type="image/x-icon">
     <meta name="description"
         content="PDF Nexus 🤖 - Convert and analyze PDF content effortlessly. Upload your PDF, get instant responses, and manage your history with ease.">
     <meta name="keywords"
@@ -75,12 +75,45 @@
         .logout-button:hover {
             background-color: #5a6268;
         }
+
+        .profile-image-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ddd;
+            background: url('https://img.icons8.com/ios/50/000000/user.png') center/cover no-repeat;
+            cursor: pointer;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-instruction {
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
     <div class="user-details-container">
         <h2>PDF Nexus 🤖 - User Details</h2>
+        <div class="profile-image-container">
+            <input type="file" id="fileUpload" class="file-input" accept="image/*" onchange="handleImageUpload()">
+            <img id="profileImage" class="profile-image" src="" alt="Profile Image"
+                onclick="document.getElementById('fileUpload').click();">
+        </div>
+        <div class="upload-instruction">
+            <p>Click on the photo to change your profile picture.</p>
+        </div>
         <p id="user-name"></p>
         <p id="user-email"></p>
         <button class="button back-button" onclick="goBack()">Back to Chat</button>
@@ -97,6 +130,13 @@
                 const user = JSON.parse(loggedInUser);
                 document.getElementById('user-name').textContent = `Name: ${user.username}`;
                 document.getElementById('user-email').textContent = `Email: ${user.email}`;
+
+                const profileImage = localStorage.getItem('profileImage');
+                if (profileImage) {
+                    document.getElementById('profileImage').src = profileImage;
+                } else {
+                    document.getElementById('profileImage').src = 'https://img.icons8.com/ios/50/000000/user.png';
+                }
             }
         };
 
@@ -106,7 +146,26 @@
 
         function logout() {
             localStorage.removeItem('loggedInUser');
+            localStorage.removeItem('profileImage');
             window.location.href = '/';
+        }
+
+        function handleImageUpload() {
+            const fileInput = document.getElementById('fileUpload');
+            const file = fileInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const profileImage = document.getElementById('profileImage');
+                    profileImage.src = e.target.result;
+
+                    localStorage.setItem('profileImage', e.target.result);
+                };
+
+                reader.readAsDataURL(file);
+            }
         }
     </script>
 </body>
