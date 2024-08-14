@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='artificial-intelligence.png') }}"
+        type="image/x-icon">
+    <meta name="description"
+        content="PDF Nexus 🤖 - Convert and analyze PDF content effortlessly. Join our free membership and explore AI tools daily.">
+    <meta name="keywords"
+        content="PDF, PDF conversion, AI response, document analysis, file upload, history management, membership">
+    <meta name="author" content="Shah Ram / PDF Nexus 🤖">
+    <meta property="og:title" content="PDF Nexus 🤖 - Join Membership">
+    <meta property="og:description"
+        content="Join our free membership to explore a variety of AI tools and receive updates directly in your email.">
+    <meta property="og:image" content="{{ url_for('static', filename='artificial-intelligence.png') }}">
+    <meta property="og:url" content="https://pdf-nexus.onrender.com/membership">
+    <title>PDF Nexus 🤖 - Join Membership</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #e0f7fa, #b9fbc0);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="email"],
+        textarea {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 16px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input[type="submit"] {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #c82333;
+        }
+
+        .note {
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .note a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .note a:hover {
+            text-decoration: underline;
+        }
+
+        .cancel-button {
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            display: block;
+            width: 100%;
+        }
+
+        .cancel-button:hover {
+            background-color: #5a6268;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            input[type="submit"],
+            .cancel-button {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>PDF Nexus 🤖 - Join Membership</h1>
+        <form action="/membership" method="POST">
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+            <input type="submit" value="Register">
+        </form>
+        <div class="note">
+            <p>Join our free membership to explore a wide range of AI tools. You will receive updates and tips directly
+                to your email daily.</p>
+            <p>Note: Membership is free, and you can cancel it at any time.</p>
+        </div>
+    </div>
+</body>
+
+</html>
