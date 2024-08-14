@@ -4,16 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='artificial-intelligence.png') }}" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="PDF Nexus 🤖 - Convert and analyze PDF content effortlessly. Upload your PDF, get instant responses, and manage your history with ease.">
-    <meta name="keywords"
-        content="PDF, PDF conversion, AI response, document analysis, file upload, history management">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='artificial-intelligence.png') }}"
+        type="image/x-icon">
+    <meta name="description" content="PDF Nexus 🤖 - Provide feedback and rate our service.">
+    <meta name="keywords" content="PDF, feedback, rating, AI tools">
     <meta name="author" content="Shah Ram / PDF Nexus 🤖">
     <meta property="og:title" content="PDF Nexus 🤖 - Feedback">
-    <meta property="og:description"
-        content="Convert and analyze PDF content effortlessly. Upload your PDF, get instant responses, and manage your history with ease.">
+    <meta property="og:description" content="Provide feedback and rate our service with a 5-star rating system.">
     <meta property="og:image" content="{{ url_for('static', filename='artificial-intelligence.png') }}">
     <meta property="og:url" content="https://pdf-nexus.onrender.com/feedback">
     <title>PDF Nexus 🤖 - Feedback</title>
@@ -81,6 +78,29 @@
             min-height: 100px;
         }
 
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 2rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover~label,
+        .star-rating input[type="radio"]:checked~label {
+            color: #ffcc00;
+        }
+
         input[type="submit"] {
             background-color: #dc3545;
             color: #fff;
@@ -118,6 +138,15 @@
 
             <label for="message">Your Feedback:</label>
             <textarea id="message" name="message" rows="6" required></textarea>
+
+            <label>Rating:</label>
+            <div class="star-rating">
+                <input type="radio" id="star5" name="rating" value="5" required><label for="star5">★</label>
+                <input type="radio" id="star4" name="rating" value="4" required><label for="star4">★</label>
+                <input type="radio" id="star3" name="rating" value="3" required><label for="star3">★</label>
+                <input type="radio" id="star2" name="rating" value="2" required><label for="star2">★</label>
+                <input type="radio" id="star1" name="rating" value="1" required><label for="star1">★</label>
+            </div>
 
             <input type="submit" value="Send">
         </form>
