@@ -3,10 +3,8 @@ import markdown
 from flask import Flask, request, render_template, jsonify, redirect, url_for
 import google.generativeai as genai
 from flask_mail import Mail, Message
-from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
 
 genai.configure(api_key=os.environ['API_KEY'])
 
@@ -18,7 +16,7 @@ def index():
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        email = request.form['ram.coding8@gmail.com']
+        email = request.form['email']
         password = request.form['password']
         
         user_msg = Message('Login Confirmation: Successful Login', recipients=[email])
@@ -84,7 +82,7 @@ mail = Mail(app)
 @app.route('/query', methods=['GET', 'POST'])
 def query():
     if request.method == 'POST':
-        email = request.form['ram.coding8@gmail.com']
+        email = request.form['email']
         message = request.form['message']
         
         user_msg = Message('Confirmation: Your Query Received', recipients=[email])
@@ -116,7 +114,7 @@ def success():
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     if request.method == 'POST':
-        email = request.form['ram.coding8@gmail.com']
+        email = request.form['email']
         message = request.form['message']
         rating = request.form.get('rating', 'No rating') 
         
@@ -155,7 +153,7 @@ def feedback_success():
 @app.route('/membership', methods=['GET', 'POST'])
 def membership():
     if request.method == 'POST':
-        email = request.form['ram.coding8@gmail.com']
+        email = request.form['email']
         
         user_msg = Message('Membership Confirmation', recipients=[email])
         user_msg.body = (
@@ -186,7 +184,7 @@ def membership_success():
 @app.route('/cancel', methods=['GET', 'POST'])
 def cancel():
     if request.method == 'POST':
-        email = request.form['ram.coding8@gmail.com']
+        email = request.form['email']
 
         user_msg = Message('Membership Cancellation Confirmation', recipients=[email])
         user_msg.body = (
