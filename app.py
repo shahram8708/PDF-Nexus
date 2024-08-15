@@ -3,8 +3,10 @@ import markdown
 from flask import Flask, request, render_template, jsonify, redirect, url_for
 import google.generativeai as genai
 from flask_mail import Mail, Message
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 genai.configure(api_key=os.environ['API_KEY'])
 
