@@ -3,3 +3,4 @@ google-generativeai
 markdown
 gunicorn
 Flask-Mail
+flask-cors
