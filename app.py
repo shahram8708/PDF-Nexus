@@ -3,8 +3,10 @@ import markdown
 from flask import Flask, request, render_template, jsonify, redirect, url_for
 import google.generativeai as genai
 from flask_mail import Mail, Message
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 genai.configure(api_key=os.environ['API_KEY'])
 
@@ -16,7 +18,7 @@ def index():
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        email = request.form['email']
+        email = request.form['ram.coding8@gmail.com']
         password = request.form['password']
         
         user_msg = Message('Login Confirmation: Successful Login', recipients=[email])
@@ -29,7 +31,7 @@ def login():
             f"Best regards,\nPDF Nexus 🤖 Team"
         )
         
-        admin_msg = Message('User Login Notification', recipients=['Email'])
+        admin_msg = Message('User Login Notification', recipients=['ram.coding8@gmail.com'])
         admin_msg.body = f"User {username} has logged in with the email address: {email}."
         
         try:
@@ -71,18 +73,18 @@ def pdf():
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = 'Email'
-app.config['MAIL_PASSWORD'] = 'Password'
+app.config['MAIL_USERNAME'] = 'ram.coding8@gmail.com'
+app.config['MAIL_PASSWORD'] = 'lkbf nrwm pmno xqdh'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_DEFAULT_SENDER'] = 'Email'
+app.config['MAIL_DEFAULT_SENDER'] = 'ram.coding8@gmail.com'
 
 mail = Mail(app)
 
 @app.route('/query', methods=['GET', 'POST'])
 def query():
     if request.method == 'POST':
-        email = request.form['email']
+        email = request.form['ram.coding8@gmail.com']
         message = request.form['message']
         
         user_msg = Message('Confirmation: Your Query Received', recipients=[email])
@@ -96,7 +98,7 @@ def query():
             f"Best regards,\nPDF Nexus 🤖 Team"
         )
         
-        admin_msg = Message('New Query Received', recipients=['Email'])
+        admin_msg = Message('New Query Received', recipients=['ram.coding8@gmail.com'])
         admin_msg.body = f"New query received:\n\nEmail: {email}\nMessage:\n{message}"
         
         try:
@@ -114,7 +116,7 @@ def success():
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     if request.method == 'POST':
-        email = request.form['email']
+        email = request.form['ram.coding8@gmail.com']
         message = request.form['message']
         rating = request.form.get('rating', 'No rating') 
         
@@ -130,7 +132,7 @@ def feedback():
             f"Best regards,\nPDF Nexus 🤖 Team"
         )
         
-        admin_msg = Message('New Feedback Received', recipients=['Email'])
+        admin_msg = Message('New Feedback Received', recipients=['ram.coding8@gmail.com'])
         admin_msg.body = (
             f"New feedback received:\n\n"
             f"Email: {email}\n"
@@ -153,7 +155,7 @@ def feedback_success():
 @app.route('/membership', methods=['GET', 'POST'])
 def membership():
     if request.method == 'POST':
-        email = request.form['email']
+        email = request.form['ram.coding8@gmail.com']
         
         user_msg = Message('Membership Confirmation', recipients=[email])
         user_msg.body = (
@@ -166,7 +168,7 @@ def membership():
             f"Best regards,\nPDF Nexus 🤖 Team"
         )
   
-        admin_msg = Message('New Membership Registration', recipients=['Email'])
+        admin_msg = Message('New Membership Registration', recipients=['ram.coding8@gmail.com'])
         admin_msg.body = f"New membership registration:\n\nEmail: {email}"
         
         try:
@@ -184,7 +186,7 @@ def membership_success():
 @app.route('/cancel', methods=['GET', 'POST'])
 def cancel():
     if request.method == 'POST':
-        email = request.form['email']
+        email = request.form['ram.coding8@gmail.com']
 
         user_msg = Message('Membership Cancellation Confirmation', recipients=[email])
         user_msg.body = (
@@ -195,7 +197,7 @@ def cancel():
             f"Best regards,\nPDF Nexus 🤖 Team"
         )
         
-        admin_msg = Message('Membership Cancellation', recipients=['Email'])
+        admin_msg = Message('Membership Cancellation', recipients=['ram.coding8@gmail.com'])
         admin_msg.body = f"Membership cancellation:\n\nEmail: {email}"
         
         try:
