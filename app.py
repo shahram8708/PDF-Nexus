@@ -25,7 +25,7 @@ def login():
             f"You have successfully logged in to PDF Nexus 🤖.\n\n"
             f"You are now a member of our service! You will receive daily emails about our AI tools, which you can explore and utilize.\n\n"
             f"If you wish to cancel your membership, you can do so by clicking the following link:\n"
-            f"https://pdf-nexus.onrender.com/cancel\n\n"
+            f"https://pdfnexus.netlify.app/cancel\n\n"
             f"Best regards,\nPDF Nexus 🤖 Team"
         )
         
@@ -92,7 +92,7 @@ def query():
             f"{message}\n\n"
             f"You are now a member of our service! You will receive daily emails about our AI tools, which you can explore and utilize.\n\n"
             f"If you wish to cancel your membership, you can do so by clicking the following link:\n"
-            f"https://pdf-nexus.onrender.com/cancel\n\n"
+            f"https://pdfnexus.netlify.app/cancel\n\n"
             f"Best regards,\nPDF Nexus 🤖 Team"
         )
         
@@ -126,7 +126,7 @@ def feedback():
             f"Rating: {rating} stars\n\n"
             f"You are now a member of our service! You will receive daily emails about our AI tools, which you can explore and utilize.\n\n"
             f"If you wish to cancel your membership, you can do so by clicking the following link:\n"
-            f"https://pdf-nexus.onrender.com/cancel\n\n"
+            f"https://pdfnexus.netlify.app/cancel\n\n"
             f"Best regards,\nPDF Nexus 🤖 Team"
         )
         
@@ -162,7 +162,7 @@ def membership():
             f"{email}\n\n"
             f"You are now a member of our service! You will receive daily emails about our AI tools, which you can explore and utilize.\n\n"
             f"If you wish to cancel your membership, you can do so by clicking the following link:\n"
-            f"https://pdf-nexus.onrender.com/cancel\n\n"
+            f"https://pdfnexus.netlify.app/cancel\n\n"
             f"Best regards,\nPDF Nexus 🤖 Team"
         )
   
@@ -191,7 +191,7 @@ def cancel():
             f"Dear User,\n\n"
             f"You have successfully canceled your membership with PDF Nexus 🤖. You will no longer receive emails or no have access to the AI tools.\n\n"
             f"If you wish to rejoin our membership, you can do so by clicking the following link:\n"
-            f"https://pdf-nexus.onrender.com/membership\n\n"
+            f"https://pdfnexus.netlify.app/membership\n\n"
             f"Best regards,\nPDF Nexus 🤖 Team"
         )
         
